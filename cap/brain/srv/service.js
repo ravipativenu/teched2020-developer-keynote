@@ -31,7 +31,7 @@ module.exports = async (srv) => {
 
   // Check env var for how far through this list we should go (default to
   // just logging the received event messages)
-  const level = process.env.BRAIN_LEVEL || 1
+  const level = process.env.BRAIN_LEVEL || 2
   log.info(`BRAIN_LEVEL set to ${level}`)
 
   if (level == 0) return
