@@ -17,11 +17,37 @@
     "prettier": "2.1.2"
   },
   "scripts": {
-    "start": "cds run --in-memory",
-    "hana": "cds deploy --to hana:brain --auto-undeploy",
-    "build": "cds build/all --clean"
+        "start": "cds run",
+        "hana": "cds deploy --to hana:brain --auto-undeploy",
+        "build": "cds build/all --clean",
+        "env": "cp ./default-env.json ./db/default-env.json && cp ./default-env.json ./srv/default-env.json"
   },
   "cds": {
+        "build": {
+            "target": ".",
+            "tasks": [
+                {
+                    "src": "db",
+                    "for": "hana",
+                    "options": {
+                        "model": [
+                            "db",
+                            "srv"
+                        ]
+                    }
+                },
+                {
+                    "src": "srv",
+                    "for": "node-cf",
+                    "options": {
+                        "model": [
+                            "db",
+                            "srv"
+                        ]
+                    }
+                }
+            ]
+        },
     "hana": {
       "deploy-format": "hdbtable"
     },
@@ -29,12 +55,9 @@
       "messaging": {
         "kind": "enterprise-messaging"
       },
-      "db": {
-        "kind": "sqlite",
-        "credentials": {
-          "database": "brain.db"
-        }
-      },
+            "db": {
+                "kind": "hana"
+            },
       "S4SalesOrders": {
         "kind": "odata",
         "model": "srv/external/API_SALES_ORDER_SRV",
