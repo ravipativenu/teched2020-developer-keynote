@@ -6,14 +6,15 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^4",
-    "@sap/hana-client": "^2.5",
+    "@sap/cds": "^5",
+    "@sap/hana-client": "^2.8",
     "@sap/xb-msg-amqp-v100": "latest",
     "console-log-level": "^1.4.1",
     "express": "^4",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "latest"
   },
   "devDependencies": {
+    "@sap/hdi-deploy": "^4.0.5",
     "prettier": "2.1.2"
   },
   "scripts": {
@@ -23,31 +24,6 @@
         "env": "cp ./default-env.json ./db/default-env.json && cp ./default-env.json ./srv/default-env.json"
   },
   "cds": {
-        "build": {
-            "target": ".",
-            "tasks": [
-                {
-                    "src": "db",
-                    "for": "hana",
-                    "options": {
-                        "model": [
-                            "db",
-                            "srv"
-                        ]
-                    }
-                },
-                {
-                    "src": "srv",
-                    "for": "node-cf",
-                    "options": {
-                        "model": [
-                            "db",
-                            "srv"
-                        ]
-                    }
-                }
-            ]
-        },
     "hana": {
       "deploy-format": "hdbtable"
     },
@@ -55,9 +31,9 @@
       "messaging": {
         "kind": "enterprise-messaging"
       },
-            "db": {
-                "kind": "hana"
-            },
+      "db": {
+        "kind": "hana"
+      },
       "S4SalesOrders": {
         "kind": "odata",
         "model": "srv/external/API_SALES_ORDER_SRV",
